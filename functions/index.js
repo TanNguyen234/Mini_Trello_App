@@ -1,19 +1,19 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+const functions = require("firebase-functions");
+const express = require("express");
+const cors = require("cors");
+const admin = require("firebase-admin");
+require("dotenv").config();
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+admin.initializeApp();
+const app = express();
+app.use(cors({ origin: true }));
+app.use(express.json());
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+// Middleware xác thực
+const { authenticateToken } = require("./utils/auth");
+app.use(authenticateToken);
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+// Routes
+app.use("/auth", require("./routes/auth"));
+
+exports.api = functions.https.onRequest(app);

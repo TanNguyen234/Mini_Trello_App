@@ -1,0 +1,36 @@
+# ⛔ Node dependencies
+node_modules/
+
+# ⛔ Firebase logs & emulators
+firebase-debug.log
+.firebaserc
+
+# ⛔ Build output
+web/build/
+functions/lib/
+functions/dist/
+
+# ⛔ Env secrets (React + Functions)
+.env
+.env.*
+*.env
+*.local
+
+# ⛔ OS files
+.DS_Store
+Thumbs.db
+
+# ⛔ VSCode settings (tuỳ chọn)
+.vscode/
+
+# ⛔ Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ⛔ Coverage / test reports
+coverage/
+
+# ⛔ IDE / System
+.idea/
+*.swp
