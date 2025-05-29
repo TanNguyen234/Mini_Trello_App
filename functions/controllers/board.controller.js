@@ -1,4 +1,4 @@
-const admin = require("firebase-admin");
+const admin = require("../utils/firebaseAdmin");
 const db = admin.firestore();
 
 exports.createBoard = async (req, res) => {
