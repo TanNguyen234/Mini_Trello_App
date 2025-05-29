@@ -13,8 +13,8 @@ app.use(cors({ origin: true }));
 app.use(express.json());
 
 // Middleware xác thực
-const { authenticateToken } = require("./utils/auth");
 app.use("/auth", authRoute)
+const { authenticateToken } = require("./utils/auth");
 
 app.use(authenticateToken);
 
