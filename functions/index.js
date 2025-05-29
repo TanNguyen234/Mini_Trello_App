@@ -2,6 +2,9 @@ const functions = require("firebase-functions");
 const express = require("express");
 const cors = require("cors");
 const admin = require("firebase-admin");
+
+const route = require("./routes/index.route")
+
 require("dotenv").config();
 
 admin.initializeApp();
@@ -14,6 +17,6 @@ const { authenticateToken } = require("./utils/auth");
 app.use(authenticateToken);
 
 // Routes
-app.use("/auth", require("./routes/auth"));
+route(app)
 
 exports.api = functions.https.onRequest(app);
