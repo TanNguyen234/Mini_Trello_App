@@ -2,12 +2,14 @@ const admin = require("../utils/firebaseAdmin");
 const db = admin.firestore();
 const boardsRef = db.collection("boards");
 
+//[GET] /boards
 exports.getBoards = async (req, res) => {
   const snapshot = await boardsRef.where("ownerId", "==", req.user.id).get();
   const boards = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   res.json(boards);
 };
 
+//[POST] /boards
 exports.createBoard = async (req, res) => {
   const { name, description } = req.body;
 
@@ -21,6 +23,7 @@ exports.createBoard = async (req, res) => {
   res.status(201).json({ id: doc.id, name, description });
 };
 
+//[GET] /boards/:id
 exports.getBoardById = async (req, res) => {
   const doc = await boardsRef.doc(req.params.id).get();
   if (!doc.exists) return res.status(404).json({ error: "Board not found" });
@@ -32,6 +35,7 @@ exports.getBoardById = async (req, res) => {
   res.json({ id: doc.id, ...board });
 };
 
+//[PUT] /boards/:id
 exports.updateBoard = async (req, res) => {
   const docRef = boardsRef.doc(req.params.id);
   const doc = await docRef.get();
@@ -44,6 +48,7 @@ exports.updateBoard = async (req, res) => {
   res.json({ message: "Board updated" });
 };
 
+//[DELETE] /boards/:id
 exports.deleteBoard = async (req, res) => {
   const docRef = boardsRef.doc(req.params.id);
   const doc = await docRef.get();

@@ -23,3 +23,19 @@ exports.sendVerificationCode = async (email, code) => {
 
   await transporter.sendMail(mailOptions);
 };
+
+exports.sendBoardInviteEmail = async (to, boardName, acceptUrl) => {
+  const subject = `You're invited to join "${boardName}" board`;
+  const html = `
+    <p>You have been invited to join the board <b>${boardName}</b>.</p>
+    <p>Click below to accept the invitation:</p>
+    <a href="${acceptUrl}" target="_blank">${acceptUrl}</a>
+  `;
+
+  await transporter.sendMail({
+    from: process.env.MAIL_USER,
+    to,
+    subject,
+    html
+  });
+};
