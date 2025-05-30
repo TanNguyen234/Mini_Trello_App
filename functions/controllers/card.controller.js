@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-const admin = require("firebase-admin");
+const admin = require("../utils/firebaseAdmin");
 const db = admin.firestore();
 const boardsRef = db.collection("boards");
 const cardsRef = db.collection("cards");
