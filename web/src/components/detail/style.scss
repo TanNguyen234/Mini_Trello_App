@@ -1,0 +1,311 @@
+/* src/components/TaskDetailModal/style.scss */
+@import '../../pages/styles/variables.scss'; // Đảm bảo đường dẫn tới _variables.scss là đúng
+
+.task-detail-modal {
+  .ant-modal-content {
+    background-color: #242A30; // Nền modal theo ảnh
+    border-radius: 8px;
+    box-shadow: none; // Bỏ shadow mặc định
+    padding: 0; // Loại bỏ padding mặc định của content để kiểm soát bằng các div con
+  }
+
+  .ant-modal-close {
+    top: 12px; // Vị trí nút X
+    right: 12px;
+    color: #9095A1; // Màu icon đóng
+    &:hover {
+      color: #BDC1CA; // Màu icon đóng khi hover
+    }
+  }
+
+  .ant-modal-body {
+    padding: 0; // Loại bỏ padding body mặc định
+  }
+
+  .task-detail-header {
+    background-color: #242A30; // Nền header
+    padding: 20px 24px 10px; // Padding cho tiêu đề
+    position: relative; // Để icon X nằm đúng vị trí
+    padding-right: 40px; // Khoảng trống cho icon X
+    border-radius: 8px 8px 0 0;
+
+    .task-title {
+      color: #BDC1CA; // Màu chữ tiêu đề task
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .task-list-info {
+      color: #9095A1; // Màu chữ "in list To do"
+      font-size: 13px;
+      margin-bottom: 0;
+      .ant-typography-strong {
+        color: #BDC1CA; // Màu của tên list (To do)
+      }
+    }
+  }
+
+  .task-detail-body {
+    display: flex;
+    padding: 16px 24px 24px; // Padding cho body, giữ 2 bên và dưới
+    gap: 24px; // Khoảng cách giữa main content và sidebar
+    background-color: #242A30; // Nền body
+    border-radius: 0 0 8px 8px;
+  }
+
+  .task-detail-main-content {
+    flex: 3; // Chiếm 3 phần
+    display: flex;
+    flex-direction: column;
+    gap: 20px; // Khoảng cách giữa các section chính
+  }
+
+  .task-detail-sidebar {
+    flex: 1; // Chiếm 1 phần
+    display: flex;
+    flex-direction: column;
+    gap: 20px; // Khoảng cách giữa các sidebar section
+  }
+
+  .section {
+    .section-title {
+      color: #BDC1CA;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  }
+
+  /* Members Section */
+  .members-section {
+    .member-list {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .member-avatar {
+        background-color: #695099; // Màu nền avatar "SD"
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .add-member-button {
+        background-color: #3A4047; // Nút "+"
+        border: 1px solid #4A4A4A;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        min-width: unset; // Override Ant Design min-width
+        padding: 0; // Override padding
+        color: #BDC1CA;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background-color: lighten(#3A4047, 5%);
+          color: #BDC1CA;
+          border-color: lighten(#4A4A4A, 5%);
+        }
+      }
+    }
+  }
+
+  /* Notifications Section */
+  .notification-section {
+    .watch-button {
+      background-color: #3A4047; // Nút Watch
+      border: 1px solid #4A4A4A;
+      color: #BDC1CA;
+      border-radius: 4px;
+      padding: 6px 12px;
+      height: auto; // Ant Design button height
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+
+      .anticon {
+        margin-right: 6px;
+      }
+
+      &:hover {
+        background-color: lighten(#3A4047, 5%);
+        color: #BDC1CA;
+        border-color: lighten(#4A4A4A, 5%);
+      }
+    }
+  }
+
+  /* Description Section */
+  .description-section {
+    .description-textarea {
+      background-color: #2D3238; // Nền textarea
+      border: 1px solid #4A4A4A;
+      color: #BDC1CA;
+      border-radius: 4px;
+      padding: 8px 12px;
+      resize: vertical; // Cho phép resize theo chiều dọc
+
+      &::placeholder {
+        color: #9095A1; // Màu placeholder
+      }
+
+      &:focus {
+        border-color: $primary-color; // Màu border khi focus (nếu có primary color)
+        box-shadow: none;
+      }
+    }
+  }
+
+  /* Activity Section */
+  .activity-section {
+    .activity-controls {
+      display: flex;
+      justify-content: flex-end; // Đẩy "Show details" sang phải
+      margin-bottom: 10px;
+
+      .show-details-text {
+        color: #1890ff; // Màu xanh link
+        font-size: 13px;
+        cursor: pointer;
+        text-decoration: underline;
+
+        &:hover {
+          color: lighten(#1890ff, 10%);
+        }
+      }
+    }
+
+    .comment-input-area {
+      display: flex;
+      align-items: flex-start; // Căn chỉnh avatar với top của input
+      gap: 10px;
+      margin-bottom: 10px;
+
+      .comment-avatar {
+        background-color: #87d068; // Màu avatar comment (SD)
+        color: #fff;
+        font-weight: bold;
+        flex-shrink: 0; // Ngăn avatar co lại
+      }
+
+      .comment-input {
+        background-color: #2D3238;
+        border: 1px solid #4A4A4A;
+        color: #BDC1CA;
+        border-radius: 4px;
+        padding: 8px 12px;
+        width: 100%; // Chiếm hết chiều rộng còn lại
+
+        &::placeholder {
+          color: #9095A1;
+        }
+
+        &:focus {
+          border-color: $primary-color;
+          box-shadow: none;
+        }
+      }
+    }
+
+    .comment-placeholder {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px; // Khoảng cách giữa các comment/placeholder
+
+      .comment-avatar-placeholder {
+        background-color: #87d068; // Màu avatar comment (SD)
+        color: #fff;
+        font-weight: bold;
+        flex-shrink: 0;
+      }
+
+      .comment-placeholder-text {
+        background-color: #3A4047; // Nền của khung text comment
+        border-radius: 4px;
+        padding: 8px 12px;
+        color: #BDC1CA;
+        font-size: 13px;
+        width: 100%;
+      }
+    }
+  }
+
+  /* Sidebar Sections */
+  .sidebar-section {
+    .sidebar-section-title {
+      color: #BDC1CA;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-transform: uppercase; // Chữ in hoa như trong ảnh
+    }
+
+    .sidebar-button {
+      background-color: #3A4047; // Nền button sidebar
+      border: 1px solid #4A4A4A;
+      color: #BDC1CA;
+      border-radius: 4px;
+      padding: 6px 12px;
+      height: auto;
+      font-size: 13px;
+      width: 100%; // Chiếm toàn bộ chiều rộng sidebar
+      display: flex; // Để căn chỉnh icon và text
+      align-items: center;
+      justify-content: flex-start; // Căn trái
+      margin-bottom: 8px; // Khoảng cách giữa các button
+
+      .anticon {
+        margin-right: 8px;
+        color: #9095A1; // Màu icon
+      }
+
+      &:hover {
+        background-color: lighten(#3A4047, 5%);
+        color: #BDC1CA;
+        border-color: lighten(#4A4A4A, 5%);
+      }
+    }
+  }
+
+  /* GitHub Section within sidebar */
+  .github-section {
+    margin-top: 10px; // Khoảng cách từ Power-Ups
+    .github-title {
+      color: #BDC1CA;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .github-attach-button {
+      background-color: #3A4047; // Nền button GitHub
+      border: 1px solid #4A4A4A;
+      color: #BDC1CA;
+      border-radius: 4px;
+      padding: 6px 12px;
+      height: auto;
+      font-size: 13px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 8px;
+
+      .anticon {
+        margin-right: 8px;
+        color: #9095A1;
+      }
+    }
+  }
+
+  /* Actions Section */
+  .actions-section {
+    .archive-button {
+      // Style giống sidebar-button
+    }
+  }
+}
