@@ -1,0 +1,168 @@
+body {
+  background-color: #efefef;
+  color: #2c2c2c;
+  overflow: hidden; // để toàn bộ layout scroll bên trong
+}
+
+.ant-drawer-header-title {
+  justify-content: end;
+}
+
+.ant-drawer-header {
+  padding: 16px 0px;
+}
+
+.default-layout {
+  height: 100vh;
+  display: flex;
+  margin: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 2px solid rgb(153, 153, 158);
+  overflow: hidden;
+
+  &__sider {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100%;
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
+    min-height: 100vh;
+    background-color: #fff;
+    z-index: 10;
+    border-right: 1px solid #ddd;
+
+    a:-webkit-any-link {
+      color: #2c2c2c;
+    }
+
+    &--logo {
+      img {
+        max-height: 100px;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &--menu {
+      padding: 10px;
+    }
+
+    &--submenu {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+
+      svg {
+        font-size: 20px;
+        margin-right: 10px;
+        fill: #dbc8c8;
+      }
+
+      span {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      &.active,
+      &:hover {
+        background-color: #747474;
+
+        span {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-y: auto;
+  }
+
+  &__header {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 50px;
+    &--title {
+      font-size: 18px;
+      font-weight: 500;
+    }
+    &--login {
+      a {
+        background: #2c2c2c;
+        color: #cdcdcd;
+        margin: 2px;
+        border-radius: 5px;
+        padding: 10px;
+        transition: 0.4s;
+        &:hover {
+          background-color: #747474;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  &__content {
+    display: grid;
+    justify-items: center;
+    padding: 24px;
+    flex: 1;
+  }
+}
+
+@media (max-width: 576px) {
+  .main {
+    padding: 0;
+  }
+  .ant-layout-header {
+    padding: 0 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .default-layout {
+    flex-direction: column;
+    margin: 10px;
+    border-radius: 0;
+    border: none;
+
+    &__header {
+      gap: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .menu-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 0;
+        border-radius: 5px;
+      }
+    }
+
+    &__content {
+      padding: 12px;
+    }
+  }
+
+  body {
+    overflow: auto; // Cho phép scroll toàn trang trên mobile
+  }
+}

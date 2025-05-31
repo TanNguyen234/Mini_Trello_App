@@ -1,0 +1,133 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #fff;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  position: relative;
+
+  .login-banner {
+    width: 56px;
+    height: 55px;
+  }
+
+  h1,
+  .ant-typography {
+    margin-bottom: 1rem;
+    color: #29354f;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 18px;
+    letter-spacing: 0%;
+    text-align: center;
+  }
+
+  .login-form {
+    position: absolute;
+    padding: 30px;
+    width: 351px;
+    height: auto;
+    left: 544px;
+    top: 193px;
+    z-index: 999;
+
+    background: #fffeff;
+    box-shadow: 0px 0px 2px rgba(23, 26, 31, 0.2),
+      0px 0px 1px rgba(23, 26, 31, 0.15);
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .ant-input {
+      padding: 0.75rem;
+      font-size: 0.9rem;
+
+      box-sizing: border-box;
+
+      width: 283px;
+      height: 38px;
+
+      background: #f9fafb;
+      border: 1px solid #565d6d;
+      border-radius: 2px;
+
+      /* Button 26 */
+
+      box-sizing: border-box;
+
+      width: 283px;
+      height: 38px;
+
+      background: #f9fafb;
+      border: 1px solid #565d6d;
+      border-radius: 2px;
+    }
+
+    .ant-btn {
+      /* Button 27 */
+
+      width: 282px;
+      height: 38px;
+
+      background: #0e50e1;
+      border-radius: 2px;
+    }
+  }
+
+  .privacy-info {
+    /* Privacy Policy */
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 18px;
+    /* identical to box height, or 164% */
+
+    color: #3f4c67;
+    div:last-child {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 11px;
+      line-height: 18px;
+      /* identical to box height, or 164% */
+      text-align: center;
+
+      color: #305cbb;
+    }
+  }
+
+  .corner-image {
+    position: absolute;
+    z-index: 0;
+
+    &.left {
+      width: 306px;
+      height: 302px;
+      top: 391px;
+      border-radius: 2px;
+      bottom: 0;
+      left: 0;
+    }
+
+    &.right {
+      bottom: 0;
+      right: 0;
+      width: 312px;
+      height: 365px;
+      border-radius: 2px;
+    }
+  }
+}
+
+.fix__title {
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 29px !important;
+  line-height: 44px !important;
+
+  color: #171a1f;
+}
