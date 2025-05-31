@@ -1,0 +1,240 @@
+/* src/pages/BoardPage/style.scss */
+
+@import "../styles/variables.scss"; // Đảm bảo đường dẫn này đúng với vị trí của bạn
+
+.board-view {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding: 0;
+
+  &__invite {
+    width: 110px;
+    height: 30px;
+    background: #1f252a;
+    border: 1px solid #BDC1CA;
+
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 21px;
+    letter-spacing: 0%;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: $text-color;
+    cursor: pointer; /* Thêm cursor pointer */
+    .anticon {
+      color: $text-color; /* Đảm bảo màu icon */
+    }
+  }
+
+  h2 {
+    background-color: #6d2c45;
+    color: white;
+    margin: 0;
+    padding: 12px 20px;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .lists-container {
+    display: flex;
+    padding: 20px;
+    gap: 16px;
+    overflow-x: auto;
+  }
+
+  .list {
+    background-color: #0f0f0f;
+    color: white;
+    padding: 12px;
+    width: 280px;
+    border-radius: 6px;
+    flex-shrink: 0;
+
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+
+    .options-icon {
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .card {
+        background-color: #202020;
+        color: white;
+        border: 1px solid #3a3a3a;
+      }
+
+      .add-card-input {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        input {
+          background: #1e1e1e;
+          color: white;
+          border: 1px solid #555;
+        }
+      }
+    }
+
+    button {
+      color: #fff;
+    }
+  }
+
+  .new-list-placeholder {
+    background-color: #a05c7b;
+    color: white;
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    width: 200px;
+    height: fit-content;
+    margin-top: 12px;
+  }
+
+  .ant-btn-text {
+    color: white;
+  }
+}
+
+/* Invite button (top-right) */
+.ant-btn-primary {
+  background-color: #1e1e1e;
+  color: white;
+  border: 1px solid #ccc;
+}
+
+
+/* -------------------- Modal Styles (Adjusted for exact match) -------------------- */
+.invite-modal {
+  .ant-modal-content {
+    background-color: #242A30; /* Nền của Modal chính xác như ảnh */
+    border-radius: 8px;
+    box-shadow: none; /* Loại bỏ shadow mặc định của Ant Design */
+  }
+
+  .ant-modal-header {
+    background-color: #242A30; /* Nền header giống content */
+    border-bottom: none; /* Loại bỏ border dưới header */
+    padding: 16px 24px 8px; /* Điều chỉnh padding để khoảng cách dưới tiêu đề nhỏ hơn */
+    border-radius: 8px 8px 0 0;
+
+    .ant-modal-title {
+      color: #BDC1CA; /* Màu chữ tiêu đề "Invite to Board" */
+      font-size: 16px; /* Kích thước font tiêu đề */
+      font-weight: bold;
+    }
+  }
+
+  .ant-modal-close {
+    top: 16px; /* Vị trí icon đóng */
+    right: 16px; /* Vị trí icon đóng */
+    color: #9095A1; /* Màu icon đóng (X) */
+
+    &:hover {
+      color: #BDC1CA; /* Màu icon khi hover */
+    }
+  }
+
+  .ant-modal-body {
+    padding: 0 24px 24px; /* Điều chỉnh padding body. Top padding 0 để liền với header */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Khoảng cách lớn hơn giữa input và phần link */
+  }
+
+  .invite-email-input {
+    background-color: #2D3238; /* Nền input */
+    border: 1px solid #4A4A4A; /* Màu border chính xác */
+    color: #BDC1CA; /* Màu chữ input */
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    height: 40px; /* Chiều cao input */
+
+    &::placeholder {
+      color: #9095A1; /* Màu placeholder chính xác */
+    }
+
+    .ant-input-suffix {
+      .invite-input-clear-icon {
+        color: #9095A1; /* Màu của biểu tượng X trong input */
+        cursor: pointer;
+
+        &:hover {
+          color: #BDC1CA;
+        }
+      }
+    }
+  }
+
+  .invite-link-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa text và button */
+  }
+
+  .invite-link-text {
+    color: #BDC1CA; /* Màu chữ "Invite someone to this Workspace with a link:" */
+    font-size: 14px;
+    flex-grow: 1; /* Cho phép text chiếm hết không gian */
+  }
+
+  .copy-link-button {
+    background-color: #3A4047; /* Nền của nút Copy Link */
+    color: #9095A1; /* Màu chữ của nút copy link */
+    border: 1px solid #4A4A4A; /* Border nút */
+    padding: 6px 12px; /* Padding cho nút */
+    height: auto;
+    border-radius: 4px;
+    display: flex; /* Để căn giữa icon và text */
+    align-items: center;
+    justify-content: center;
+
+    .anticon {
+      margin-right: 5px;
+      color: #9095A1; /* Màu icon */
+      font-size: 14px; /* Kích thước icon */
+    }
+    span {
+      font-size: 14px; /* Kích thước chữ */
+    }
+
+    &:hover {
+      background-color: lighten(#3A4047, 5%);
+      color: #BDC1CA; /* Màu chữ khi hover */
+      border-color: lighten(#4A4A4A, 10%);
+    }
+  }
+
+  .disable-link-text {
+    color: #1890ff; /* Màu xanh mặc định cho link, bạn có thể thay đổi để khớp hoàn toàn */
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: -10px; /* Đẩy lên gần nút copy link */
+    display: inline-block; /* Đảm bảo margin-top hoạt động */
+  }
+
+  .ant-modal-footer {
+    display: none; /* Đảm bảo không có footer */
+  }
+}
