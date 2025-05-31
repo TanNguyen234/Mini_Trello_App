@@ -1,0 +1,111 @@
+// src/pages/CardDetailPage/CardDetailPage.scss
+@import '../../../styles/variables';
+
+.card-detail-container {
+  display: flex;
+  gap: 20px;
+  background-color: #f4f5f7; // Consistent background
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.card-detail-main {
+  flex-grow: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 0 rgba(9,30,66,.25);
+}
+
+.card-detail-title {
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: $text-color;
+}
+
+.card-detail-list-context {
+  font-size: 14px;
+  color: #6b778c;
+  margin-bottom: 20px;
+}
+
+.card-detail-section {
+  margin-bottom: 20px;
+  h3 {
+    margin-bottom: 10px;
+  }
+}
+
+.card-detail-members-avatars {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.card-detail-member-avatar {
+  background-color: #ccc;
+  margin-right: 5px;
+}
+
+.card-detail-add-member-button {
+  border: 1px dashed #d9d9d9;
+  width: 32px;
+  height: 32px;
+  min-width: unset; // Override default button min-width
+  padding: 0; // Remove default padding
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #5e6c84;
+}
+
+.card-detail-description-textarea {
+  margin-top: 10px;
+}
+
+.card-detail-activity-header {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.card-detail-comment-input {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.card-detail-show-details-button {
+  color: #5e6c84;
+}
+
+.card-detail-sidebar {
+  flex-shrink: 0;
+  width: 180px;
+  padding: 10px;
+  background-color: #fff; // Or a slightly different shade if preferred
+  border-radius: 8px;
+  box-shadow: 0 1px 0 rgba(9,30,66,.25);
+
+  .ant-typography-strong {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: #5e6c84;
+  }
+}
+
+.sidebar-button {
+  margin-bottom: 8px;
+  text-align: left;
+  border-radius: 3px;
+  background-color: #ebecf0;
+  color: #172b4d;
+
+  &:hover {
+    background-color: #dcdfe4;
+  }
+}
+
+.sidebar-power-ups-title {
+  margin-top: 20px;
+}

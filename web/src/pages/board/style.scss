@@ -1,0 +1,147 @@
+@import "../styles/variables";
+
+.board-management-page {
+  padding: 24px;
+  background-color: $page;
+  min-height: calc(100vh - 48px - 24px);
+
+  textarea {
+    width: 188px;
+    height: 94px;
+    border-radius: 2px;
+    border-width: 1px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .textarea_none {
+    background: $background-color;
+    border: 1px solid #9095a1;
+  }
+
+  .page-title {
+    color: $text-color;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+
+.board-description-section {
+  margin-bottom: 30px;
+
+  .page-overall-description-textarea {
+    /* Đổi class name */
+    background-color: #3a4047;
+    color: $text-color;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    padding: 8px 12px;
+    resize: none; /* Ngăn người dùng thay đổi kích thước */
+
+    &::placeholder {
+      color: $light-text-color;
+    }
+  }
+}
+
+.board-card-link {
+  text-decoration: none;
+  color: inherit;
+
+  &>.textarea_none {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #9095A1;
+  }
+}
+
+.board-card {
+  background-color: #3a4047;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid $border-color;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  padding: 16px;
+  height: 160px; /* Tăng chiều cao card để chứa textarea */
+  display: flex;
+  flex-direction: column; /* Đặt flex column để các phần tử xếp dọc */
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .board-card-name {
+    /* Đổi tên class từ title thành name để phân biệt */
+    color: $text-color;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px; /* Giảm khoảng cách để textarea gần hơn */
+    white-space: nowrap; /* Ngăn tiêu đề xuống dòng */
+    overflow: hidden; /* Ẩn phần bị tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu ... */
+  }
+
+  .board-card-description-textarea {
+    /* Style cho textarea trong card */
+    background-color: transparent; /* Nền trong suốt để hòa vào card */
+    color: $text-color;
+    border: none; /* Không có border */
+    resize: none; /* Không cho phép resize */
+    padding: 0;
+    margin-bottom: 10px; /* Khoảng cách với phần members */
+    flex-grow: 1; /* Cho textarea chiếm hết không gian còn lại */
+    overflow: hidden; /* Đảm bảo nội dung không tràn ra ngoài */
+
+    .ant-input {
+      /* Ant Design textarea inner element */
+      background-color: transparent;
+      color: $text-color;
+      resize: none;
+    }
+
+    // Ant Design placeholder color, make sure it matches your light-text-color
+    &::placeholder {
+      color: $light-text-color;
+    }
+  }
+
+  .board-card-members {
+    display: flex;
+    align-items: center;
+    margin-top: auto; /* Đẩy phần members xuống cuối card */
+  }
+
+  .member-avatar-placeholder {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #87d068;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 14px;
+    margin-right: 5px;
+    border: 1px solid $border-color;
+  }
+
+  .more-members-count {
+    background-color: lighten($card, 15%);
+    color: $text-color;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 5px;
+  }
+}

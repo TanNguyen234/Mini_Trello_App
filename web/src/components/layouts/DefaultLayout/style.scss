@@ -1,168 +1,120 @@
-body {
-  background-color: #efefef;
-  color: #2c2c2c;
-  overflow: hidden; // để toàn bộ layout scroll bên trong
+@import '../../../pages/styles/variables.scss';
+
+.main-layout {
+  min-height: 100vh;
 }
 
-.ant-drawer-header-title {
-  justify-content: end;
-}
-
-.ant-drawer-header {
-  padding: 16px 0px;
-}
-
-.default-layout {
-  height: 100vh;
+.main-header {
   display: flex;
-  margin: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  border: 2px solid rgb(153, 153, 158);
-  overflow: hidden;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $header; // Sử dụng biến $header
+  padding: 0 20px;
+  height: 48px;
+}
 
-  &__sider {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    height: 100%;
-    width: 220px;
-    min-width: 220px;
-    max-width: 220px;
-    min-height: 100vh;
-    background-color: #fff;
-    z-index: 10;
-    border-right: 1px solid #ddd;
+.header-left {
+  display: flex;
+  align-items: center;
+}
 
-    a:-webkit-any-link {
-      color: #2c2c2c;
-    }
+// Giữ lại hoặc xóa .header-logo nếu bạn dùng img tag
+// .header-logo {
+//   color: #fff;
+//   font-size: 24px;
+//   font-weight: bold;
+//   margin-right: 20px;
+// }
 
-    &--logo {
-      img {
-        max-height: 100px;
-        width: 100%;
-        object-fit: cover;
-      }
-    }
-
-    &--menu {
-      padding: 10px;
-    }
-
-    &--submenu {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding: 10px 12px;
-      margin-bottom: 8px;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: background-color 0.3s;
-
-      svg {
-        font-size: 20px;
-        margin-right: 10px;
-        fill: #dbc8c8;
-      }
-
-      span {
-        font-size: 16px;
-        font-weight: 500;
-      }
-
-      &.active,
-      &:hover {
-        background-color: #747474;
-
-        span {
-          color: #fff;
-        }
-      }
+.header-menu {
+  background-color: transparent;
+  border-bottom: none;
+  .ant-menu-item {
+    color: lighten($text-color, 10%); // Màu chữ menu item
+    &:hover {
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.2);
     }
   }
-
-  &__inner {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    overflow-y: auto;
-  }
-
-  &__header {
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 50px;
-    &--title {
-      font-size: 18px;
-      font-weight: 500;
-    }
-    &--login {
-      a {
-        background: #2c2c2c;
-        color: #cdcdcd;
-        margin: 2px;
-        border-radius: 5px;
-        padding: 10px;
-        transition: 0.4s;
-        &:hover {
-          background-color: #747474;
-          color: #fff;
-        }
-      }
-    }
-  }
-
-  &__content {
-    display: grid;
-    justify-items: center;
-    padding: 24px;
-    flex: 1;
+  .ant-menu-item-selected {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
   }
 }
 
-@media (max-width: 576px) {
-  .main {
-    padding: 0;
-  }
-  .ant-layout-header {
-    padding: 0 !important;
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-create-button {
+  margin-right: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
   }
 }
 
-@media (max-width: 768px) {
-  .default-layout {
-    flex-direction: column;
-    margin: 10px;
-    border-radius: 0;
-    border: none;
+.header-icon {
+  color: lighten($text-color, 10%); // Màu icon
+  font-size: 18px;
+  margin-right: 15px;
+  cursor: pointer;
+}
 
-    &__header {
-      gap: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+.header-avatar-dropdown {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
 
-      .menu-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 0;
-        border-radius: 5px;
-      }
-    }
+.header-avatar {
+  background-color: #87d068; // Màu avatar (có thể tùy chỉnh)
+  margin-right: 5px;
+}
 
-    &__content {
-      padding: 12px;
+.header-down-icon {
+  color: lighten($text-color, 10%);
+  font-size: 12px;
+}
+
+.main-sider {
+  background-color: $sider; // Sử dụng biến $sider
+  padding: 20px 5px;
+  // Ant Design Sider có thể có border riêng, cần override nếu muốn loại bỏ
+}
+
+.sider-menu {
+  background-color: transparent;
+  border-right: none; // Override border của Ant Design
+  color: $text-color; // Màu chữ cho menu sider
+
+  .ant-menu-item {
+    margin: 0 10px;
+    border-radius: 4px;
+    color: lighten($text-color, 5%); // Màu chữ item menu sider
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1); // Hover cho item menu sider
     }
   }
 
-  body {
-    overflow: auto; // Cho phép scroll toàn trang trên mobile
+  .ant-menu-item-selected {
+    background-color: rgba(255, 255, 255, 0.15); // Selected cho item menu sider
+    color: #fff;
   }
+}
+
+.content-layout {
+  background-color: $page; // Màu nền của layout content
+}
+
+.main-content {
+  background-color: $page; // Màu nền của khu vực content chính
+  min-height: 280px;
+  border-radius: 8px;
+  color: $text-color; // Màu chữ cho content
 }
