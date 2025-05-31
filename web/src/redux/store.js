@@ -3,6 +3,7 @@ import { userSlice } from './userSlice';
 import boardSlice from './boardSlice';
 import cardSlice from './cardSlice';
 import taskSlice from './taskSlice';
+import githubSlice from './githubSlice';
 
 
 const store = configureStore({
@@ -10,7 +11,8 @@ const store = configureStore({
         user: userSlice.reducer,
         board: boardSlice.reducer,
         card: cardSlice,
-        task: taskSlice
+        task: taskSlice,
+        github: githubSlice
     }
 })
 
