@@ -27,7 +27,7 @@ const DefaultLayout = () => {
 
   return (
     <Layout className="default-layout">
-      {screens.md && <SiderComponent />}
+      {/* {screens.md && <SiderComponent />}
 
       {!screens.md && (
         <Drawer
@@ -54,7 +54,7 @@ const DefaultLayout = () => {
         >
           <Outlet />
         </Content>
-      </Layout>
+      </Layout> */}
     </Layout>
   );
 };
