@@ -1,4 +1,4 @@
-import { auth, postJson, patch, del } from "./base";
+import { auth, postJson, patch, del } from "./request";
 
 export const getCardsAPI = async (boardId, token) => {
   return await auth(`/boards/${boardId}/cards`, token);
