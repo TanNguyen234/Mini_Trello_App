@@ -8,8 +8,8 @@ import githubSlice from './githubSlice';
 
 const store = configureStore({
     reducer: {
-        auth: authSlice.reducer,
-        board: boardSlice.reducer,
+        auth: authSlice,
+        board: boardSlice,
         card: cardSlice,
         task: taskSlice,
         github: githubSlice

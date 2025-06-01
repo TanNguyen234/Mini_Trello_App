@@ -2,17 +2,27 @@
 import { useState } from "react";
 import { Input, Button, Typography, Form } from "antd";
 import AuthLayout from "./index";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { sendVerificationCode } from "../../redux/authSlice";
 
 const { Title } = Typography;
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    // TODO: Submit logic
+    try {
+      await dispatch(sendVerificationCode(email)).unwrap();
+      localStorage.setItem("email", email); // tạm lưu để dùng ở bước tiếp theo
+      navigate("/verify");
+    } catch (err) {
+      alert("Gửi mã thất bại: " + err);
+    }
   };
 
   return (

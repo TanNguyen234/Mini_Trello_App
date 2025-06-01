@@ -1,15 +1,19 @@
 import DefaultLayout from "../components/layouts/DefaultLayout";
+import PrivateRoute from "../components/Private";
 import LoginPage from "../pages/auth/login";
 import VerifyPage from "../pages/auth/verify";
 import BoardManagementPage from "../pages/board/Board";
 import CardBoardDnD from "../pages/card";
-import CardPage from "../pages/card";
-import TaskDetailModal from "../components/detail";
+import Error_404 from "../pages/errors/404";
 
 export const routes = [
   {
     path: "/",
-    element: <DefaultLayout />,
+    element: (
+      <PrivateRoute>
+        <DefaultLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/boards",
@@ -29,8 +33,8 @@ export const routes = [
     path: "/verify",
     element: <VerifyPage />,
   },
-  // {
-  //     path: "/register",
-  //     element: <RegisterPage />
-  // }
+  {
+    path: "*",
+    element: <Error_404 />,
+  },
 ];

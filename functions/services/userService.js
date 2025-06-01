@@ -1,4 +1,4 @@
-const admin = require("firebase-admin");
+const admin = require("../utils/firebaseAdmin");
 const db = admin.firestore();
 
 const usersRef = db.collection("users");
@@ -20,5 +20,8 @@ exports.saveVerificationCode = async (email, code) => {
 
 exports.verifyCode = async (email, code) => {
   const doc = await codesRef.doc(email).get();
-  return doc.exists && doc.data().code === code;
+
+  const storedCode = doc.data()?.code;
+
+  return doc.exists && String(storedCode) === String(code);
 };

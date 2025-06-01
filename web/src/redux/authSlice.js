@@ -4,7 +4,7 @@ import {
   verifyCodeAndLoginAPI,
   fetchUserInfoAPI,
 } from "../services/auth";
-import { setCookie, deleteAllCookie } from "../helpers/cookie";
+import { setCookie, deleteAllCookie, getCookie } from "../helpers/cookie";
 
 export const sendVerificationCode = createAsyncThunk(
   "auth/sendCode",
@@ -22,14 +22,31 @@ export const loginWithCode = createAsyncThunk(
   async ({ email, code }, thunkAPI) => {
     try {
       const data = await verifyCodeAndLoginAPI(email, code);
+      console.log(data)
       if (!data.accessToken) throw new Error("Đăng nhập thất bại!");
 
-      setCookie("access_token", data.accessToken, 0.0208);
+      setCookie("accessToken", data.accessToken, 0.0208);
       const userData = await fetchUserInfoAPI(data.accessToken);
 
       return { ...userData, accessToken: data.accessToken };
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
+export const autoLogin = createAsyncThunk(
+  "auth/autoLogin",
+  async (_, thunkAPI) => {
+    try {
+      const accessToken = getCookie("accessToken");
+      if (!accessToken) throw new Error("No access token");
+
+      const userData = await fetchUserInfoAPI(accessToken);
+      return { ...userData, accessToken };
+    } catch (err) {
+      deleteAllCookie();
+      return thunkAPI.rejectWithValue("Tự động đăng nhập thất bại");
     }
   }
 );
@@ -80,6 +97,20 @@ const authSlice = createSlice({
       .addCase(loginWithCode.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Đăng nhập thất bại";
+      })
+      .addCase(autoLogin.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(autoLogin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.id = action.payload.id;
+        state.email = action.payload.email;
+        state.accessToken = action.payload.accessToken;
+      })
+      .addCase(autoLogin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Tự động đăng nhập thất bại";
       });
   },
 });

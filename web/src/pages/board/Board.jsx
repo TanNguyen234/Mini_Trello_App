@@ -1,9 +1,8 @@
 import { Typography, Card, Col, Row, Input } from "antd"; // Import Input
-import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import "./style.scss";
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 const BoardManagementPage = () => {
   // Dữ liệu giả định cho các board, khớp với cấu trúc API bạn đã cung cấp

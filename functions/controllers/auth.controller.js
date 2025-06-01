@@ -10,9 +10,6 @@ const { sendVerificationCode } = require("../services/mailerService");
 
 exports.signUp = async (req, res) => {
   const { email } = req.body;
-  const user = await findUserByEmail(email);
-  if (user) return res.status(400).json({ error: "User already exists" });
-
   const code = generateCode();
   await saveVerificationCode(email, code);
   await sendVerificationCode(email, code);
@@ -24,7 +21,7 @@ exports.signIn = async (req, res) => {
 
   const isValid = await verifyCode(email, verificationCode);
   if (!isValid) return res.status(401).json({ error: "Invalid verification code" });
-
+  
   let user = await findUserByEmail(email);
   if (!user) {
     user = await createUser(email);
@@ -35,4 +32,17 @@ exports.signIn = async (req, res) => {
   });
 
   res.status(200).json({ accessToken: token });
+};
+
+exports.getProfile = async (req, res) => {
+  try {
+    console.log(user)
+    const user = req.user;
+    res.status(200).json({
+      id: user.id,
+      email: user.email
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to retrieve user info" });
+  }
 };

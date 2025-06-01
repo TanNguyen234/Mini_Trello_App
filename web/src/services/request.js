@@ -1,5 +1,4 @@
-export const API_DOMAIN = process.env.REACT_APP_PATH_API;
-
+export const API_DOMAIN = process.env.REACT_APP_API_URL;
 const buildHeaders = (token, isJson = true, isForm = false) => {
   const headers = {};
   if (token) headers["Authorization"] = `Bearer ${token}`;
