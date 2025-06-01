@@ -23,6 +23,34 @@
 
 ## How to Run the Project in Development (Windows)
 
+---
+
+## 🔐 Environment Variable Setup
+
+### Backend (`functions/.env`)
+
+Create a `.env` file inside the `functions/` directory with the following content:
+
+```env
+MAIL_USER=
+MAIL_PASS=
+ACCESS_TOKEN_SECRET=jdgaqet39e2y89eykasajkge39qaksjk28l
+FRONTEND_URL=http://localhost:3000/
+```
+### Frontend (`web/.env`)
+Create a `.env` file inside the `web/` directory with the following content:
+
+```env
+REACT_APP_FIREBASE_API_KEY=AIzaSyDH3kayt5wIlvCpcbCKPoDm7bMukPVCrkQ
+REACT_APP_FIREBASE_AUTH_DOMAIN=minitrelloapp.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=minitrelloapp
+REACT_APP_FIREBASE_STORAGE_BUCKET=minitrelloapp.firebasestorage.app
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=525948028560
+REACT_APP_FIREBASE_APP_ID=1:525948028560:web:cfe50c3dfec2a7a7b1fa15
+REACT_APP_API_URL=http://localhost:5001/minitrelloapp/us-central1/api
+REACT_APP_FIREBASE_MEASUREMENT_ID=G-NXLZ6NKWJC
+```
+
 ### Backend (Firebase Functions)
 
 ```bash
@@ -53,7 +81,7 @@ This will launch the development server, typically at `http://localhost:3000`.
 ### UI Design
 
 ![Board Design](./screenshots/board_ui.PNG)
-![Card Design](./screenshots/card.PNG)
+![Card Design](./screenshots/card_ui.PNG)
 ![Invite Popup Design](./screenshots/invite_popup_ui.PNG)
 ![Task Design](./screenshots/task_ui.PNG)
 ![Login Design](./screenshots/login_ui.PNG)
