@@ -3,14 +3,15 @@ import { Card, Input, Button, Modal, Typography } from "antd";
 import { PlusOutlined, UserAddOutlined, CloseOutlined, CopyOutlined } from "@ant-design/icons";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import "./style.scss"; // Giả sử bạn có file style.scss
-import TaskDetailModal from "../../components/detail/index"; // Import TaskDetailModal
+import "./style.scss";
+import TaskDetailModal from "../../components/detail/index";
 
 const ItemType = {
   TASK: "TASK",
+  LIST: "LIST", // Thêm loại item mới cho List
 };
 
-// TaskCard Component
+// TaskCard Component (Không thay đổi)
 const TaskCard = ({ task, index, cardId, moveTask, moveTaskToList, onTaskClick }) => {
   const ref = useRef(null);
 
@@ -31,46 +32,28 @@ const TaskCard = ({ task, index, cardId, moveTask, moveTaskToList, onTaskClick }
       const dragIndex = draggedItem.originalIndex;
       const hoverIndex = index;
       const sourceCardId = draggedItem.originalCardId;
-      const targetCardId = cardId; // ID của list mà TaskCard này thuộc về
+      const targetCardId = cardId;
 
-      // Không thay thế item bằng chính nó
-      if (draggedItem.id === task.id) { // Nếu cùng ID và đang hover trên chính nó
-         // Nếu bạn muốn cho phép drop lên chính nó mà không làm gì, thì return ở đây.
-         // Hoặc nếu logic ở dưới đã xử lý sourceCardId === targetCardId và dragIndex === hoverIndex thì cũng được.
+      if (draggedItem.id === task.id) {
+          // No operation if hovering over itself
       }
 
-      // Nếu kéo thả trong cùng một list
       if (sourceCardId === targetCardId) {
-        if (dragIndex === hoverIndex) { // Đang hover trên chính vị trí cũ trong cùng list
+        if (dragIndex === hoverIndex) {
           return;
         }
-        // Xác định vị trí tương đối của chuột và item đang hover
         const hoverBoundingRect = ref.current?.getBoundingClientRect();
         const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
         const clientOffset = monitor.getClientOffset();
         const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-        // Chỉ di chuyển khi chuột đã qua nửa chiều cao của item
         if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
         if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
         
         moveTask(targetCardId, dragIndex, hoverIndex);
-        draggedItem.originalIndex = hoverIndex; // Cập nhật index của item đang kéo
-      } else { // Kéo thả sang một list khác và đang hover lên một TaskCard trong list đó
-        // Logic tương tự để xác định có nên "chen" vào vị trí này không
-        const hoverBoundingRect = ref.current?.getBoundingClientRect();
-        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-        const clientOffset = monitor.getClientOffset();
-        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-        // Tạm thời chưa cần check kỹ vị trí Y khi kéo sang list khác,
-        // vì việc chèn vào vị trí hoverIndex là đủ.
-        // Quan trọng là phải gọi moveTaskToList và cập nhật item đang kéo.
-        
-        // Di chuyển task sang list mới tại vị trí hoverIndex
+        draggedItem.originalIndex = hoverIndex;
+      } else {
         moveTaskToList(sourceCardId, targetCardId, draggedItem.id, hoverIndex, draggedItem.taskData);
-        
-        // Cập nhật thông tin cho item đang kéo để nó "biết" nó đã sang list mới
         draggedItem.originalCardId = targetCardId;
         draggedItem.originalIndex = hoverIndex;
       }
@@ -81,7 +64,7 @@ const TaskCard = ({ task, index, cardId, moveTask, moveTaskToList, onTaskClick }
 
   const handleClick = useCallback((e) => {
     if (isDragging) {
-      e.stopPropagation(); // Ngăn click nếu đó là kết thúc của một hành động kéo
+      e.stopPropagation();
       return;
     }
     e.stopPropagation();
@@ -137,7 +120,7 @@ export default function CardBoardDnD() {
     setCards(prevCards => {
       const newCards = prevCards.map(card => ({ // Tạo bản sao sâu hơn một chút
         ...card,
-        tasks: [...card.tasks] 
+        tasks: [...card.tasks]
       }));
       const targetCard = newCards.find(c => c.id === listId);
       if (!targetCard) return prevCards;
@@ -150,22 +133,19 @@ export default function CardBoardDnD() {
 
   const moveTaskToList = useCallback((sourceListId, destinationListId, taskId, targetIndexInDest, taskData) => {
     setCards(prevCards => {
-      let taskToMove = taskData; // Dữ liệu task đã có sẵn từ draggedItem
-      let newCards = prevCards.map(card => ({ ...card, tasks: [...card.tasks] })); // Clone sâu
+      let taskToMove = taskData;
+      let newCards = prevCards.map(card => ({ ...card, tasks: [...card.tasks] }));
 
-      // 1. Xóa task khỏi list nguồn
       const sourceList = newCards.find(list => list.id === sourceListId);
       if (sourceList) {
         const taskIndexInSource = sourceList.tasks.findIndex(t => t.id === taskId);
         if (taskIndexInSource > -1) {
-            // Nếu taskData không được truyền, lấy từ sourceList (cẩn thận nếu taskData đã bị thay đổi)
-            // Tuy nhiên, với cách setup item trong useDrag, taskData đã là bản snapshot lúc bắt đầu kéo.
           if(!taskToMove) taskToMove = sourceList.tasks[taskIndexInSource];
           sourceList.tasks.splice(taskIndexInSource, 1);
         }
       } else {
         console.warn(`Source list ${sourceListId} not found.`);
-        return prevCards; // Hoặc xử lý lỗi
+        return prevCards;
       }
 
       if (!taskToMove) {
@@ -173,10 +153,8 @@ export default function CardBoardDnD() {
         return prevCards;
       }
 
-      // 2. Thêm task vào list đích
       const destinationList = newCards.find(list => list.id === destinationListId);
       if (destinationList) {
-        // Đảm bảo targetIndexInDest nằm trong giới hạn hợp lệ
         let validTargetIndex = targetIndexInDest;
         if (validTargetIndex < 0) validTargetIndex = 0;
         if (validTargetIndex > destinationList.tasks.length) validTargetIndex = destinationList.tasks.length;
@@ -184,13 +162,24 @@ export default function CardBoardDnD() {
         destinationList.tasks.splice(validTargetIndex, 0, taskToMove);
       } else {
         console.warn(`Destination list ${destinationListId} not found.`);
-        // Có thể quyết định thêm lại task vào source list nếu đích không tồn tại
-        // hoặc xử lý lỗi khác.
         return prevCards;
       }
       return newCards;
     });
-  }, []); // Không cần 'cards' ở đây nếu taskData luôn được truyền
+  }, []);
+
+  // Hàm mới để di chuyển list
+  const moveList = useCallback((draggedId, hoverIndex) => {
+    setCards(prevCards => {
+      const newCards = [...prevCards];
+      const dragIndex = newCards.findIndex(card => card.id === draggedId);
+      if (dragIndex === -1) return prevCards;
+
+      const [movedList] = newCards.splice(dragIndex, 1);
+      newCards.splice(hoverIndex, 0, movedList);
+      return newCards;
+    });
+  }, []);
 
   const showInviteModal = useCallback(() => setIsInviteModalVisible(true), []);
   const handleInviteModalClose = useCallback(() => setIsInviteModalVisible(false), []);
@@ -214,49 +203,90 @@ export default function CardBoardDnD() {
     setSelectedList(null);
   }, []);
 
-  // Wrapper cho mỗi List để làm nó thành drop target
-  const ListDropTargetWrapper = ({ list, children }) => {
-    const [{ isOver, canDrop }, dropRef] = useDrop({
+  // Wrapper cho mỗi List để làm nó thành drop target VÀ DRAG SOURCE
+  const ListDropTargetWrapper = ({ list, index, children, moveList }) => { // Thêm index và moveList
+    const ref = useRef(null);
+
+    // useDrag cho List
+    const [{ isDraggingList }, dragList] = useDrag({
+      type: ItemType.LIST,
+      item: { id: list.id, originalIndex: index }, // Bao gồm index gốc của list
+      collect: (monitor) => ({
+        isDraggingList: monitor.isDragging(),
+      }),
+    });
+
+    // useDrop cho Task
+    const [, dropTask] = useDrop({
       accept: ItemType.TASK,
       drop: (draggedItem, monitor) => {
-        if (monitor.didDrop()) { // Nếu một TaskCard con đã xử lý drop
+        if (monitor.didDrop()) {
           return;
         }
-        // Chỉ xử lý nếu task từ list khác và thả trực tiếp vào list này (không phải lên TaskCard con)
         if (draggedItem.originalCardId !== list.id) {
-          // Thêm vào cuối list này
           moveTaskToList(draggedItem.originalCardId, list.id, draggedItem.id, list.tasks.length, draggedItem.taskData);
         }
       },
       hover: (draggedItem, monitor) => {
         // Chỉ xử lý hover trên chính list (shallow), không phải TaskCard con
-        if (!monitor.isOver({ shallow: true })) return;
+        if (monitor.getItemType() !== ItemType.TASK || !monitor.isOver({ shallow: true })) return;
 
         const sourceCardId = draggedItem.originalCardId;
         const targetCardId = list.id;
 
         // Nếu kéo từ list khác qua một list rỗng
         if (sourceCardId !== targetCardId && list.tasks.length === 0) {
-          // "Tạm thời" di chuyển task vào list rỗng này
           moveTaskToList(sourceCardId, targetCardId, draggedItem.id, 0, draggedItem.taskData);
-          // Cập nhật trạng thái của item đang kéo
           draggedItem.originalCardId = targetCardId;
           draggedItem.originalIndex = 0;
         }
       },
       collect: (monitor) => ({
-        isOver: monitor.isOver({ shallow: true }),
-        canDrop: monitor.canDrop(),
+        isOverTask: monitor.isOver({ shallow: true }),
+        canDropTask: monitor.canDrop(),
       }),
     });
 
+    // useDrop cho List (để các list khác có thể thả lên list này)
+    const [, dropList] = useDrop({
+      accept: ItemType.LIST,
+      hover(draggedItem, monitor) {
+        if (!ref.current) return;
+        const dragIndex = draggedItem.originalIndex;
+        const hoverIndex = index;
+
+        // Không di chuyển nếu là cùng một list hoặc đã qua vị trí mong muốn
+        if (dragIndex === hoverIndex) return;
+
+        // Xác định vị trí tương đối của chuột để biết nên di chuyển sang trái hay phải
+        const hoverBoundingRect = ref.current?.getBoundingClientRect();
+        const clientOffset = monitor.getClientOffset();
+        const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
+        const hoverClientX = clientOffset.x - hoverBoundingRect.left;
+
+        // Chỉ di chuyển khi con trỏ chuột đã đi qua giữa phần tử
+        if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) return;
+        if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) return;
+
+        moveList(draggedItem.id, hoverIndex);
+        draggedItem.originalIndex = hoverIndex; // Cập nhật index cho item đang kéo
+      },
+    });
+
+    // Kết hợp cả ref cho drag và drop
+    dragList(dropList(dropTask(ref))); // ref nhận cả drag (list) và drop (task, list)
+
     return (
-      <div 
-        ref={dropRef} 
-        className="list" 
-        style={{ 
-          backgroundColor: isOver && canDrop ? 'rgba(0,0,0,0.05)' : 'transparent', 
-          minHeight: '100px' // Đảm bảo list có chiều cao để thả vào ngay cả khi rỗng
+      <div
+        ref={ref}
+        className="list"
+        style={{
+          backgroundColor: '#0E0F05', // Giữ màu nền cố định cho list
+          opacity: isDraggingList ? 0.5 : 1, // Làm mờ list khi đang kéo
+          cursor: isDraggingList ? 'grabbing' : 'grab', // Con trỏ chuột khi kéo list
+          minHeight: '100px', // Đảm bảo list có chiều cao để thả vào ngay cả khi rỗng
+          // Thêm border hoặc shadow để thể hiện vùng thả khi kéo list nếu muốn
+          // border: isOverList && canDropList ? '2px dashed #000' : 'none',
         }}
       >
         {children}
@@ -275,22 +305,21 @@ export default function CardBoardDnD() {
           </span>
         </h2>
         <div className="lists-container">
-          {cards.map((list) => (
-            <ListDropTargetWrapper key={list.id} list={list}>
+          {cards.map((list, index) => ( // Truyền index của list
+            <ListDropTargetWrapper key={list.id} list={list} index={index} moveList={moveList}>
               <h3>{list.name}</h3>
-              <div className="cards"> {/* Vùng chứa các TaskCard */}
-                {list.tasks.map((task, index) => (
+              <div className="cards">
+                {list.tasks.map((task, taskIndex) => (
                   <TaskCard
                     key={task.id}
                     task={task}
-                    index={index}
-                    cardId={list.id} // ID của list chứa TaskCard này
+                    index={taskIndex}
+                    cardId={list.id}
                     moveTask={moveTask}
                     moveTaskToList={moveTaskToList}
                     onTaskClick={handleTaskClick}
                   />
                 ))}
-                {/* Phần thêm card mới */}
                 {addingToList === list.id ? (
                   <div className="add-card-input">
                     <Input
@@ -317,7 +346,6 @@ export default function CardBoardDnD() {
         </div>
       </div>
 
-      {/* Modal Mời thành viên */}
       <Modal title="Invite to Board" open={isInviteModalVisible} onCancel={handleInviteModalClose} footer={null} closeIcon={<CloseOutlined />} className="invite-modal">
         <Input placeholder="Email address or name" className="invite-email-input" />
         <div className="invite-link-section">
@@ -327,10 +355,9 @@ export default function CardBoardDnD() {
         <Typography.Link className="disable-link-text">Disable link</Typography.Link>
       </Modal>
 
-      {/* Task Detail Modal */}
       {selectedTask && selectedList && (
         <TaskDetailModal
-          isVisible={isTaskDetailModalVisible} // Prop của TaskDetailModal
+          isVisible={isTaskDetailModalVisible}
           onClose={handleCloseTaskDetailModal}
           task={{ ...selectedTask, listName: selectedList.name }}
         />

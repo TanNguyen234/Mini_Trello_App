@@ -7,7 +7,13 @@ const boardsRef = db.collection("boards");
 
 exports.createUser = async (email) => {
   const doc = await usersRef.add({ email, createdAt: Date.now() });
-
+  const ok = await boardsRef.add({
+        name: "My Trello board",
+        description: "",
+        ownerId: doc.id,
+        createdAt: admin.firestore.FieldValue.serverTimestamp()
+  })
+  console.log(ok)
   return { id: doc.id, email };
 };
 

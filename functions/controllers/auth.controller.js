@@ -25,14 +25,7 @@ exports.signIn = async (req, res) => {
   let user = await findUserByEmail(email);
   if (!user) {
     user = await createUser(email);
-    await boardsRef.add({
-        name: "My Trello board",
-        description: "",
-        ownerId: req.user.id,
-        createdAt: admin.firestore.FieldValue.serverTimestamp()
-    })
   }
-
   const token = jwt.sign({ id: user.id, email: user.email }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "7d"
   });
