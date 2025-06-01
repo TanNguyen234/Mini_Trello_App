@@ -1,7 +1,7 @@
-import { auth, postJson, patch, del } from "./request"; // base chứa hàm gọi API như get, postJson...
+import { auth, postJson, patch, del, get } from "./request"; // base chứa hàm gọi API như get, postJson...
 
 export const getBoardsAPI = async (token) => {
-  return await auth("/boards", token);
+  return await get("/boards", token);
 };
 
 export const getBoardByIdAPI = async (id, token) => {

@@ -5,7 +5,9 @@ const boardsRef = db.collection("boards");
 //[GET] /boards
 exports.getBoards = async (req, res) => {
   const snapshot = await boardsRef.where("ownerId", "==", req.user.id).get();
+  console.log(snapshot)
   const boards = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  console.log(boards)
   res.json(boards);
 };
 

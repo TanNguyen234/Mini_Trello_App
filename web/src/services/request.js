@@ -12,6 +12,7 @@ export const get = async (path, token = null) => {
     method: "GET",
     headers: buildHeaders(token, false),
   });
+  console.log(res)
   return res.json();
 };
 

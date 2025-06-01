@@ -25,6 +25,12 @@ exports.signIn = async (req, res) => {
   let user = await findUserByEmail(email);
   if (!user) {
     user = await createUser(email);
+    await boardsRef.add({
+        name: "My Trello board",
+        description: "",
+        ownerId: req.user.id,
+        createdAt: admin.firestore.FieldValue.serverTimestamp()
+    })
   }
 
   const token = jwt.sign({ id: user.id, email: user.email }, process.env.ACCESS_TOKEN_SECRET, {
@@ -36,7 +42,6 @@ exports.signIn = async (req, res) => {
 
 exports.getProfile = async (req, res) => {
   try {
-    console.log(user)
     const user = req.user;
     res.status(200).json({
       id: user.id,

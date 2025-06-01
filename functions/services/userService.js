@@ -3,9 +3,11 @@ const db = admin.firestore();
 
 const usersRef = db.collection("users");
 const codesRef = db.collection("verification_codes");
+const boardsRef = db.collection("boards");
 
 exports.createUser = async (email) => {
   const doc = await usersRef.add({ email, createdAt: Date.now() });
+
   return { id: doc.id, email };
 };
 

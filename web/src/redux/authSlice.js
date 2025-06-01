@@ -22,7 +22,6 @@ export const loginWithCode = createAsyncThunk(
   async ({ email, code }, thunkAPI) => {
     try {
       const data = await verifyCodeAndLoginAPI(email, code);
-      console.log(data)
       if (!data.accessToken) throw new Error("Đăng nhập thất bại!");
 
       setCookie("accessToken", data.accessToken, 0.0208);
@@ -43,10 +42,12 @@ export const autoLogin = createAsyncThunk(
       if (!accessToken) throw new Error("No access token");
 
       const userData = await fetchUserInfoAPI(accessToken);
-      return { ...userData, accessToken };
+
+      const payloadToReturn = { ...userData, accessToken };
+      return payloadToReturn;
     } catch (err) {
       deleteAllCookie();
-      return thunkAPI.rejectWithValue("Tự động đăng nhập thất bại");
+      return thunkAPI.rejectWithValue(err.message || "Tự động đăng nhập thất bại");
     }
   }
 );
@@ -57,9 +58,10 @@ const initialState = {
   accessToken: "",
   loading: false,
   error: null,
+  isAuthChecked: false,
 };
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
@@ -68,7 +70,11 @@ const authSlice = createSlice({
       state.email = "";
       state.accessToken = "";
       state.error = null;
+      state.isAuthChecked = true;
       deleteAllCookie();
+    },
+    setIsAuthChecked: (state, action) => {
+      state.isAuthChecked = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -93,10 +99,12 @@ const authSlice = createSlice({
         state.id = action.payload.id;
         state.email = action.payload.email;
         state.accessToken = action.payload.accessToken;
+        state.isAuthChecked = true;
       })
       .addCase(loginWithCode.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Đăng nhập thất bại";
+        state.isAuthChecked = true;
       })
       .addCase(autoLogin.pending, (state) => {
         state.loading = true;
@@ -104,16 +112,27 @@ const authSlice = createSlice({
       })
       .addCase(autoLogin.fulfilled, (state, action) => {
         state.loading = false;
-        state.id = action.payload.id;
-        state.email = action.payload.email;
-        state.accessToken = action.payload.accessToken;
+        if (action.payload) {
+          state.id = action.payload.id;
+          state.email = action.payload.email;
+          state.accessToken = action.payload.accessToken;
+        } else {
+          state.error = "Dữ liệu đăng nhập tự động không hợp lệ";
+        }
+        state.isAuthChecked = true;
       })
       .addCase(autoLogin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Tự động đăng nhập thất bại";
+        state.id = null;
+        state.email = "";
+        state.accessToken = "";
+        state.isAuthChecked = true;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+// Export logout and setIsAuthChecked directly from authSlice.actions
+export const { logout, setIsAuthChecked } = authSlice.actions;
+
 export default authSlice.reducer;

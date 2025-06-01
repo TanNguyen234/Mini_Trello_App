@@ -1,4 +1,4 @@
-import { postJson, auth } from "./request";
+import { postJson, auth, get } from "./request";
 
 export const requestVerificationCodeAPI = async (email) => {
   return await postJson("/auth/signup", { email });
@@ -9,5 +9,5 @@ export const verifyCodeAndLoginAPI = async (email, verificationCode) => {
 };
 
 export const fetchUserInfoAPI = async (token) => {
-  return await auth("/auth/me", token); // giả sử có endpoint này để lấy info
+  return await get("/auth/me", token); // giả sử có endpoint này để lấy info
 };
