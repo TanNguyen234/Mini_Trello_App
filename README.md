@@ -31,7 +31,7 @@
 3. **Start Firebase emulators:** Go back to the project root and run the Firebase emulators to serve functions and Firestore locally:
    ```bash
    cd ..
-   firebase emulators:start --only functions,firestore
+   firebase emulators:start
    ```
 
 ## Running the Frontend
@@ -43,7 +43,7 @@
    ```
 2. **Start the dev server:** Run the frontend’s development server:
    ```bash
-   npm start
+   yarn start
    ```
    This will compile and launch the web app on a localhost port (commonly `http://localhost:3000`).
 3. **View the app:** Open your browser and go to the URL shown. The web app should load and connect to the emulated backend.
